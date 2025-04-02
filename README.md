@@ -2,76 +2,118 @@
 
 ## Configuring the Switch(es)
 ### 1. Create your VLANs and name them
-```enable```
+<pre><code>
+enable
 
-```conf t```
+conf t
 
-```vlan {VLAN_ID}```
+vlan {VLAN_ID}
 
-```name {VLAN_NAME}```
+name {VLAN_NAME}
 
-```exit```
-
+exit
+</code></pre>
  Repeat the above steps for each VLAN to put in the switch
 
 ### 2. Set up ports for the VLAN
-```int range {INTERFACE-RANGE}```
+<pre><code>
+int range {INTERFACE-RANGE}
 
-```switchport mode access```
+switchport mode access
 
-```switchport access {VLAN_ID}```
+switchport access {VLAN_ID}
 
-```exit```
+exit
+</code></pre>
 
  Replace {INTERFACE-RANGE} with the appropriate port range, such as fa0/1-3.
  
  Replace {VLAN_ID} with the VLAN number
 
 ### 3. Create a VLAN trunk
-```int {INTERFACE}```
+<pre><code>
+int {INTERFACE}
+ 
+switchport mode trunk
 
-```switchport mode trunk```
+exit
 
-```exit```
+</code></pre>
 
- Replace {INTERFACE} with the switch port that will co
+
+
+ Replace {INTERFACE} with the switch port
 
 ## Configuring the Multilayer Switch
 ### 4. Create the VLANs and Name them
-```enable```
 
-```conf t```
+<pre><code>
 
-```vlan {VLAN_ID}```
+enable
 
-```name {VLAN_NAME}```
+conf t
 
-```exit```
+vlan {VLAN_ID}
+
+name {VLAN_NAME}
+
+exit
+
+</code></pre>
 
  Repeat the above steps for each VLAN to put in the multilayer switch
 
 ### 5. Create a VLAN trunk
-```int range {INTERFACE-RANGE}```
+<pre><code>
+ 
+int range {INTERFACE-RANGE}
 
-```switchport mode trunk```
+switchport mode trunk
 
-```exit```
+exit
+ 
+</code></pre>
+
 
  Replace {INTERFACE} with all the ports that are connected to switches/routers
 
 
 ## Configuring the Router
 ### 6. Create subinterfaces
-```enable```
 
-```conf t```
+<pre><code>
+enable
 
-```int {INTERFACE}.{VLAN_ID}```
+conf t
 
-```encapsulation dot1q {VLAN_ID}```
+int {INTERFACE}.{VLAN_ID}
 
-```ip address {IP ADDR} {SUBNET MASK}```
+encapsulation dot1q {VLAN_ID}
+
+ip address {IP ADDR} {SUBNET MASK}
+
+exit
+ 
+</code></pre>
 
  Replace interface with each interface used on the router. 
  Replace VLAN ID for the VLAN number that will identify tagged traffic for that VLAN
  The IP address will be for each subinterface used for inter-VLAN routing. 
+
+
+ ### 7. Configure DHCP service
+
+ <pre><code>
+
+  service dhcp
+
+  ip dhcp pool {TITLE}
+
+  network {IP ADDR} {SUBNET MASK}
+
+  default-router {IP ADDR} 
+  
+ </code></pre>
+
+Replace {TITLE} with the name of your VLAN
+You can choose your default router IP address to be the IP address of your subinterface
