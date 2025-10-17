@@ -1,4 +1,4 @@
-This Cisco Packet Tracer lab will help you develop a NAT topology. This is a very simple one that allows you to expand and build new topologies. 
+This Cisco Packet Tracer lab will help you develop a NAT topology. This is a very simple one that allows you to expand and build new topologies. Feel free to change any IP addresses or add any devices. 
 ## Details ##
 ### LAN (192.168.100.0/24) ###
 <ul>
@@ -44,7 +44,7 @@ This Cisco Packet Tracer lab will help you develop a NAT topology. This is a ver
 
 ### R0 ###
 
-<code>enable
+<pre><code>enable
  conf t
  int g0/0
  ip addr 172.16.1.1 255.255.255.252
@@ -54,6 +54,47 @@ This Cisco Packet Tracer lab will help you develop a NAT topology. This is a ver
  no shut
  ip route 10.1.1.0 255.255.255.240 172.16.1.2
  ip route 132.212.0.0 255.255.0.0 172.16.1.2
- </code>
+ </code></pre>
 
+
+ ### R1 ###
+
+ <pre><code>enable
+   conf t
+   int g0/0
+   ip addr 172.16.1.2 255.255.255.252
+   ip nat inside
+   int g0/1
+   ip addr 172.17.1.1 255.255.255.252
+   ip nat outside
+   int g0/2
+   ip addr 10.1.1.1 255.255.255.240
+   ip nat inside
+ </code></pre>
+
+ This is where you create your access lists that allow which IP addresses can be NATted.
+
+ <pre><code>access-list 1 permit 192.168.100.0 0.0.0.255
+   access-list 2 permit 10.1.0.0 0.0.15.255
+    ip nat inside source list 1 int g0/1 overload
+    ip nat inside source list 2 int g0/1 overload
+
+   ip route 192.168.100.0 255.255.255.0 172.16.1.1 
+   ip route 192.168.100.0 255.255.255.0 192.168.100.1 
+   ip route 132.212.0.0 255.255.0.0 172.17.1.2 
+ </code></pre>
+
+### R2 ###
+
+<pre><code>enable
+ conf t
+ int g0/0
+ ip addr 172.17.1.2 255.255.255.252
+ no shut
+ int g0/1
+ ip addr 132.212.0.1 255.255.0.0
+ no shut
+ ip route 10.1.1.0 255.255.255.240 172.17.1.1
+ ip route 192.168.100.0 255.255.255.0 172.17.1.1
+ </code></pre>
 
