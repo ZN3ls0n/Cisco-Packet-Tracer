@@ -44,42 +44,9 @@ exit
 
  Replace {INTERFACE} with the switch port
 
-## Configuring the Multilayer Switch
-### 4. Create the VLANs and Name them
-
-<pre><code>
-
-enable
-
-conf t
-
-vlan {VLAN_ID}
-
-name {VLAN_NAME}
-
-exit
-
-</code></pre>
-
- Repeat the above steps for each VLAN to put in the multilayer switch
-
-### 5. Create a VLAN trunk
-<pre><code>
- 
-int range {INTERFACE-RANGE}
-
-switchport mode trunk
-
-exit
- 
-</code></pre>
-
-
- Replace {INTERFACE} with all the ports that are connected to switches/routers
-
 
 ## Configuring the Router
-### 6. Create subinterfaces
+### 4. Create subinterfaces
 
 <pre><code>
 enable
@@ -101,7 +68,7 @@ exit
  The IP address will be for each subinterface used for inter-VLAN routing. 
 
 
- ### 7. Configure DHCP service
+ ### 5. Configure DHCP service
 
  <pre><code>
 
