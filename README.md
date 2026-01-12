@@ -1,4 +1,4 @@
-# Configuring DHCP on a Router for Multiple VLANs with Switches and Multi-Layer Switches
+# Configuring DHCP on a Router for Multiple VLANs with Switches
 
 ## Configuring the Switch(es)
 ### 1. Create your VLANs and name them
